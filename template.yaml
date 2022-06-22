@@ -5,13 +5,14 @@ Description: Cognito user pool with hosted domain
 Parameters:
   AppName:
     Type: String
-    Description: CRUD
+    Description: Name of the application
   ClientDomains:
     Type: CommaDelimitedList
-    Description: https://techraptor.com
+    Description: Array of domains allowed to use this UserPoo
+    # https://techraptor.com
   AdminEmail:
     Type: String
-    Description: rahul.mm@inapp.com
+    Description: admin email
   AddGroupsToScopes:
     Type: String
     AllowedValues:
@@ -82,6 +83,13 @@ Resources:
       UserAttributes:
         - Name: email
           Value: !Ref AdminEmail
+      UserPoolId: !Ref UserPool
+
+  AddUserToGroup:
+    Type: AWS::Cognito::UserPoolUserToGroupAttachment
+    Properties:
+      GroupName: !Ref AdminUserGroup
+      Username: !Ref AdminUser
       UserPoolId: !Ref UserPool
 
 Outputs:
